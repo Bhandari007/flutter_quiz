@@ -1,6 +1,11 @@
 # flutter_quiz_app
 
-A flutter quiz app with OOP concepts.
+A flutter quiz app with pillars of OOP.
+i. Abstraction
+ii. Encapsulation
+iii. Inheritance
+iv. Polymorphism
+
 
 ## Screenshots of the App:
 ![screenshot_20211108-180549 (1)](https://user-images.githubusercontent.com/59955680/140741536-420e9ae5-79f3-4a8b-a789-f065cfa228a8.jpg)
