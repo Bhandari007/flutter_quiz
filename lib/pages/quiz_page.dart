@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_quiz_app/models/quiz_mind.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class QuizPage extends StatefulWidget {
@@ -8,12 +9,11 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-  List<String> questions = [
-    "All man are mortal",
-    "Muskan is a man",
-    "Hence, Muskan is mortal"
-  ];
+
+
+  QuizMind quizMind = QuizMind();
   int questionNumber = 0;
+  bool ?correctAnswer = true;
   List<Widget> scoreKeeper =  [];
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class _QuizPageState extends State<QuizPage> {
                         backgroundColor: Colors.white,
                       ),
                       const SizedBox(height: 20,),
-                      Text("${questions[questionNumber]} ?",
+                      Text("${quizMind.questionBank[0].questionText} ?",
                         style: GoogleFonts.lato(
                         fontSize: 25,
                       ),),
@@ -60,8 +60,15 @@ class _QuizPageState extends State<QuizPage> {
                         ),
                         onTap: (){
                           setState(() {
-                            questionNumber = (questionNumber + 1) % questions.length;
+                            correctAnswer = quizMind.questionBank[questionNumber].questionAnswer;
                             scoreKeeper.add(const Icon(Icons.check));
+                            if (correctAnswer == true){
+                              debugPrint("Correct");
+                            }
+                            else{
+                              debugPrint("InCorrect");
+                            }
+                            questionNumber = (questionNumber + 1) % quizMind.questionBank.length;
                           });
                         },
                       ),
@@ -81,8 +88,15 @@ class _QuizPageState extends State<QuizPage> {
                         ),
                         onTap: (){
                           setState(() {
+                            correctAnswer = quizMind.questionBank[questionNumber].questionAnswer;
                             scoreKeeper.add(const Icon(Icons.close));
-                            questionNumber = (questionNumber + 1) % questions.length;
+                            if (correctAnswer == false){
+                              debugPrint("Correct");
+                            }
+                            else{
+                              debugPrint("InCorrect");
+                            }
+                            questionNumber = (questionNumber + 1) % quizMind.questionBank.length;
                           });
                         },
                       ),
