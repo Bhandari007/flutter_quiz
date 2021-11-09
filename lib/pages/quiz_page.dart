@@ -12,7 +12,6 @@ class _QuizPageState extends State<QuizPage> {
 
 
   QuizMind quizMind = QuizMind();
-  int questionNumber = 0;
   bool ?correctAnswer = true;
   List<Widget> scoreKeeper =  [];
   @override
@@ -70,7 +69,7 @@ class _QuizPageState extends State<QuizPage> {
                             )
                           ]
                         ),
-                        child: Text("\"${quizMind.questionBank[0].questionText}\"",
+                        child: Text("\"${quizMind.getQuestionText()}\"",
                           style: GoogleFonts.lato(
                           fontSize: 25,
                             fontStyle: FontStyle.italic
@@ -95,7 +94,7 @@ class _QuizPageState extends State<QuizPage> {
                         ),
                         onTap: (){
                           setState(() {
-                            correctAnswer = quizMind.questionBank[questionNumber].questionAnswer;
+                            correctAnswer = quizMind.getCorrectAnswer();
                             scoreKeeper.add(const Icon(Icons.check));
                             if (correctAnswer == true){
                               debugPrint("Correct");
@@ -103,7 +102,7 @@ class _QuizPageState extends State<QuizPage> {
                             else{
                               debugPrint("InCorrect");
                             }
-                            questionNumber = (questionNumber + 1) % quizMind.questionBank.length;
+                            quizMind.nextQuestionNumber();
                           });
                         },
                       ),
@@ -126,7 +125,7 @@ class _QuizPageState extends State<QuizPage> {
                         ),
                         onTap: (){
                           setState(() {
-                            correctAnswer = quizMind.questionBank[questionNumber].questionAnswer;
+                            correctAnswer = quizMind.getCorrectAnswer();
                             scoreKeeper.add(const Icon(Icons.close));
                             if (correctAnswer == false){
                               debugPrint("Correct");
@@ -134,7 +133,7 @@ class _QuizPageState extends State<QuizPage> {
                             else{
                               debugPrint("InCorrect");
                             }
-                            questionNumber = (questionNumber + 1) % quizMind.questionBank.length;
+                            quizMind.nextQuestionNumber();
                           });
                         },
                       ),
