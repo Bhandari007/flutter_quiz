@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quiz_app/models/quiz_mind.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class QuizPage extends StatefulWidget {
   @override
@@ -9,11 +10,38 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-
-
   QuizMind quizMind = QuizMind();
   bool ?correctAnswer = true;
+  int correctFlag= 0;
+
   List<Widget> scoreKeeper =  [];
+  void checkCorrectAnswer(bool userPickedAnswer){
+      setState(() {
+        if (quizMind.isQuestionFinished() == true){
+          double successPercent = (correctFlag / quizMind.questionLength()) * 100;
+          Alert(context: context,
+              type: AlertType.info,
+              title:"Your success rate was:",
+              desc: "$successPercent %",
+              buttons: [
+                DialogButton(child: const Text("Quit"), onPressed: ()=>Navigator.pop(context),width: 120,)
+              ]
+          ).show();
+          scoreKeeper.clear();
+        }
+        else{
+          correctAnswer = quizMind.getCorrectAnswer();
+          if (correctAnswer == userPickedAnswer){
+            scoreKeeper.add(const Icon(Icons.check));
+            correctFlag ++;
+          }
+          else{
+            scoreKeeper.add(const Icon(Icons.close));
+          }
+          quizMind.nextQuestionNumber();
+        }
+      });
+  }
   @override
   Widget build(BuildContext context) {
     return  SafeArea(
@@ -93,17 +121,7 @@ class _QuizPageState extends State<QuizPage> {
                           ),),
                         ),
                         onTap: (){
-                          setState(() {
-                            correctAnswer = quizMind.getCorrectAnswer();
-                            scoreKeeper.add(const Icon(Icons.check));
-                            if (correctAnswer == true){
-                              debugPrint("Correct");
-                            }
-                            else{
-                              debugPrint("InCorrect");
-                            }
-                            quizMind.nextQuestionNumber();
-                          });
+                              checkCorrectAnswer(true);
                         },
                       ),
                       const SizedBox(height: 20,),
@@ -124,17 +142,7 @@ class _QuizPageState extends State<QuizPage> {
                           ),),
                         ),
                         onTap: (){
-                          setState(() {
-                            correctAnswer = quizMind.getCorrectAnswer();
-                            scoreKeeper.add(const Icon(Icons.close));
-                            if (correctAnswer == false){
-                              debugPrint("Correct");
-                            }
-                            else{
-                              debugPrint("InCorrect");
-                            }
-                            quizMind.nextQuestionNumber();
-                          });
+                          checkCorrectAnswer(false);
                         },
                       ),
                       Expanded(child: Container()),
