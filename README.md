@@ -16,6 +16,7 @@ A flutter quiz app with pillars of OOP.
 
 ## Packages Used:
 * google-fonts (https://pub.dev/packages/google_fonts)
+* rflutter_alert: (https://pub.dev/packages/rflutter_alert)
 
 ## Assets:
 *  Question mark image from : (https://www.istockphoto.com/photo/question-mark-3d-red-interrogation-point-asking-sign-punctuation-mark-isolated-on-gm1023347350-274666114)
